@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
             const token = localStorage.getItem('token');
             if (token) {
                 try {
-                    const res = await axios.get('http://localhost:5000/api/auth/user', {
+                    const res = await axios.get('https://tic-tac-toe-backend-2-gz9a.onrender.com/api/auth/user', {
                         headers: { 'x-auth-token': token }
                     });
                     setUser(res.data);
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (username, password) => {
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/login', { username, password });
+            const res = await axios.post('https://tic-tac-toe-backend-2-gz9a.onrender.com/api/auth/login', { username, password });
             localStorage.setItem('token', res.data.token);
             setUser(res.data.user);
             return { success: true };
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
 
     const signup = async (username, password) => {
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/signup', { username, password });
+            const res = await axios.post('https://tic-tac-toe-backend-2-gz9a.onrender.com/api/auth/signup', { username, password });
             localStorage.setItem('token', res.data.token);
             setUser(res.data.user);
             return { success: true };

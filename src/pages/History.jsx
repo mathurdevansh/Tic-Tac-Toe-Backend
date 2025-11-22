@@ -12,7 +12,7 @@ export default function History() {
             const token = localStorage.getItem('token');
             if (token) {
                 try {
-                    const res = await axios.get('http://localhost:5000/api/matches/history', {
+                    const res = await axios.get('https://tic-tac-toe-backend-2-gz9a.onrender.com/api/matches/history', {
                         headers: { 'x-auth-token': token }
                     });
                     setMatches(res.data);

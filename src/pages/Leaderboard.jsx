@@ -6,7 +6,7 @@ export default function Leaderboard() {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/api/leaderboard')
+        axios.get('https://tic-tac-toe-backend-2-gz9a.onrender.com/api/leaderboard')
             .then(res => setUsers(res.data))
             .catch(err => console.error(err));
     }, []);

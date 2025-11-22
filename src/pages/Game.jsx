@@ -8,13 +8,13 @@ import { AuthContext } from '../context/AuthContext';
 export default function Game() {
     const [searchParams] = useSearchParams();
     const difficulty = searchParams.get('difficulty') || 'Medium';
-    const mode = searchParams.get('mode'); // 'campaign' or undefined
+    const mode = searchParams.get('mode');
     const navigate = useNavigate();
     const { updateUser } = useContext(AuthContext);
 
     const [board, setBoard] = useState(Array(9).fill(null));
-    const [isXNext, setIsXNext] = useState(true); // Player is X
-    const [winner, setWinner] = useState(null); // 'X', 'O', 'Draw', null
+    const [isXNext, setIsXNext] = useState(true);
+    const [winner, setWinner] = useState(null);
     const [winningLine, setWinningLine] = useState(null);
     const [isAiThinking, setIsAiThinking] = useState(false);
 
@@ -42,7 +42,6 @@ export default function Game() {
             date: new Date()
         };
 
-        // Save locally
         try {
             const localHistory = JSON.parse(localStorage.getItem('matchHistory') || '[]');
             localHistory.unshift(matchData);
@@ -51,14 +50,12 @@ export default function Game() {
             console.error("Local storage error", e);
         }
 
-        // Sync to backend with Auth Token
         const token = localStorage.getItem('token');
         if (token) {
             try {
-                const res = await axios.post('http://localhost:5000/api/match', matchData, {
+                const res = await axios.post('https://tic-tac-toe-backend-2-gz9a.onrender.com/api/match', matchData, {
                     headers: { 'x-auth-token': token }
                 });
-                // Update local user state with new points/level from backend response
                 if (res.data.user) {
                     updateUser(res.data.user);
                 }
@@ -90,10 +87,9 @@ export default function Game() {
             return;
         }
 
-        // AI Turn
         setIsAiThinking(true);
         try {
-            const response = await axios.post('http://localhost:5000/api/ai/move', {
+            const response = await axios.post('https://tic-tac-toe-backend-2-gz9a.onrender.com/api/ai/move', {
                 board: newBoard,
                 difficulty,
                 player: 'O'
